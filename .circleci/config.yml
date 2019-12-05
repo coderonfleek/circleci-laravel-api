@@ -23,7 +23,9 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer install -n --prefer-dist
+      - run:
+        name: "Install Dependencies"
+        command: composer install -n --prefer-dist
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -33,18 +35,28 @@ jobs:
           keys:
             - node-v1-{{ checksum "package.json" }}
             - node-v1-
-      - run: yarn install
+      - run:
+        name: "Install NPM modules"
+        command: yarn install
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
 
       # prepare the database
-      - run: |
+      - run:
+        name: "Create Environment file and generate app key"
+        command: |
           mv .env.testing .env
           php artisan key:generate
+
+      - run:
+        name: "Create database and run migration"
+        command: |
           touch database/test.sqlite
-      - run: php artisan migrate --env=testing
+          php artisan migrate --env=testing
 
       # run tests with phpunit
-      - run: ./vendor/bin/phpunit
+      - run:
+        name: "Run Tests"
+        command: ./vendor/bin/phpunit
