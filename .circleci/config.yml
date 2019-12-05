@@ -24,8 +24,8 @@ jobs:
             - v1-dependencies-
 
       - run:
-        name: "Install Dependencies"
-        command: composer install -n --prefer-dist
+          name: "Install Dependencies"
+          command: composer install -n --prefer-dist
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -36,8 +36,8 @@ jobs:
             - node-v1-{{ checksum "package.json" }}
             - node-v1-
       - run:
-        name: "Install NPM modules"
-        command: yarn install
+          name: "Install NPM modules"
+          command: yarn install
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
@@ -45,18 +45,18 @@ jobs:
 
       # prepare the database
       - run:
-        name: "Create Environment file and generate app key"
-        command: |
+          name: "Create Environment file and generate app key"
+          command: |
           mv .env.testing .env
           php artisan key:generate
 
       - run:
-        name: "Create database and run migration"
-        command: |
+          name: "Create database and run migration"
+          command: |
           touch database/test.sqlite
           php artisan migrate --env=testing
 
       # run tests with phpunit
       - run:
-        name: "Run Tests"
-        command: ./vendor/bin/phpunit
+          name: "Run Tests"
+          command: ./vendor/bin/phpunit
