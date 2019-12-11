@@ -45,17 +45,20 @@ jobs:
 
       # prepare the database
       - run:
-          name: "Create Environment file and generate app key and passport encryption key"
+          name: "Create Environment file and generate app key"
           command: |
             mv .env.testing .env
             php artisan key:generate
-            php artisan passport:install
 
       - run:
           name: "Create database and run migration"
           command: |
             touch database/database.sqlite
             php artisan migrate --env=testing
+
+      - run:
+          name: "Generate Passport encryption keys"
+          command: php artisan passport:install
 
       # run tests with phpunit
       - run:
