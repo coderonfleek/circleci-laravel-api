@@ -58,6 +58,8 @@ class UserTest extends TestCase
             'email' => $email,
             'password' => $this->password
         ]);
+
+        var_dump($response->getContent());
         
         $response->assertStatus(200);
     }//testUserLogin
