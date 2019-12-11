@@ -45,10 +45,11 @@ jobs:
 
       # prepare the database
       - run:
-          name: "Create Environment file and generate app key"
+          name: "Create Environment file and generate app key and passport encryption key"
           command: |
             mv .env.testing .env
             php artisan key:generate
+            php artisan passport:install
 
       - run:
           name: "Create database and run migration"
