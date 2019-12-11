@@ -44,6 +44,11 @@ jobs:
             - node_modules
 
       # prepare the database
+      - run:
+          name: "Create Environment file and generate app key"
+          command: |
+            mv .env.testing .env
+            php artisan key:generate
 
       - run:
           name: "Create database and run migration"
