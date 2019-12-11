@@ -59,7 +59,7 @@ class UserTest extends TestCase
             'password' => $this->password
         ]);
 
-        var_dump($response->getContent());
+        //var_dump($response->getContent());
         
         $response->assertStatus(200);
     }//testUserLogin
