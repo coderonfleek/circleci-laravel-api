@@ -62,6 +62,7 @@ class UserTest extends TestCase
         //var_dump($response->getContent());
         
         $response->assertStatus(200);
+        $this->assertAuthenticated();
     }//testUserLogin
 
     
